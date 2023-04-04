@@ -1,6 +1,4 @@
-var list = document.getElementsByClassName('list-group-item');
-list[1].style.background = 'green';
-for(let i = 0;i <= list.length; i++)
-{
-    list[i].style.fontWeight = 'bold';
-}
+var item = document.getElementsByClassName('list-group-item')
+item[4].style.color = 'orange';
+var moreItem = document.getElementsByTagName('li');
+moreItem[4].style.color = 'orange';

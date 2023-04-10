@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form>
+            <label for="name">Name : </label>
+            <input type="text" name="name" id="name"><br><br>
+            <label for="email">Email : </label>
+            <input type="text" name="email" id="email"><br><br>
+            <label for="phone">Phone : </label>
+            <input type="text" name="phone" id="phone"><br><br>
+            <input type="submit" id="submit" value="Submit">
+        </form>
+    </div>
+    <script>
+            const form = document.querySelector('form');
+            form.addEventListener('submit', showDetails);
+            function showDetails(Event){
+                Event.preventDefault();
+                const name = document.querySelector('#name').value;
+                const email = document.querySelector('#email').value;
+                const phone = document.querySelector('#phone').value;
+                const obj = {
+                    name , email, phone
+                }
+            localStorage.setItem('user', JSON.stringify(obj));
+            let ul = document.createElement('ul');  
+            let li = document.createElement('li');
+            let text = document.createTextNode(obj.name+'-'+obj.email+'-'+obj.phone);
+            li.appendChild(text);
+            ul.appendChild(li);
+            form.appendChild(ul);
+
+            }
+    </script>
+</body>
+</html>

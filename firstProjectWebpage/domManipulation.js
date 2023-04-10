@@ -20,6 +20,7 @@ function addItem(e){
     var descriptionText = document.getElementById('description').value;
     li.appendChild(document.createTextNode(newItem));
     li.appendChild(document.createTextNode('    '+descriptionText));
+    localStorage.setItem(newItem, descriptionText);
     var deleteBtn = document.createElement('button');
     deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
     deleteBtn.appendChild(document.createTextNode('X'));

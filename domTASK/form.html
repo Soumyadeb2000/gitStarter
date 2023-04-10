@@ -15,7 +15,7 @@
             <input type="text" name="email" id="email"><br><br>
             <label for="phone">Phone : </label>
             <input type="text" name="phone" id="phone"><br><br>
-            <input type="submit" id="submit" value="Submit">
+            <input type="submit" id="submit" class="submit">
         </form>
     </div>
     <script>
@@ -29,15 +29,24 @@
                 const obj = {
                     name , email, phone
                 }
-            localStorage.setItem('user', JSON.stringify(obj));
-            let ul = document.createElement('ul');  
-            let li = document.createElement('li');
-            let text = document.createTextNode(obj.name+'-'+obj.email+'-'+obj.phone);
-            li.appendChild(text);
-            ul.appendChild(li);
-            form.appendChild(ul);
-
-            }
+                localStorage.setItem('user', JSON.stringify(obj));
+                let ul = document.createElement('ul');  
+                let li = document.createElement('li');
+                let deleteBtn = document.createElement('input');
+                deleteBtn.className = 'delete';
+                deleteBtn.type = 'button';
+                deleteBtn.value = 'Delete';
+                deleteBtn.appendChild(document.createTextNode('Delete'));
+                deleteBtn.onclick = () =>{
+                    localStorage.removeItem('user');
+                    ul.removeChild(deleteBtn.parentElement);
+                }
+                let text = document.createTextNode(obj.name+' - '+obj.email+' - '+obj.phone);
+                li.appendChild(text);
+                li.appendChild(deleteBtn);
+                ul.appendChild(li);
+                form.appendChild(ul);
+                }
     </script>
 </body>
 </html>

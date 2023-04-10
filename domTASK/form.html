@@ -23,13 +23,16 @@
             form.addEventListener('submit', showDetails);
             function showDetails(Event){
                 Event.preventDefault();
-                const name = document.querySelector('#name').value;
-                const email = document.querySelector('#email').value;
-                const phone = document.querySelector('#phone').value;
-                const obj = {
+                let nameObj = document.querySelector('#name');
+                let emailObj = document.querySelector('#email');
+                let phoneObj = document.querySelector('#phone');
+                let name = nameObj.value;
+                let email = emailObj.value;
+                let phone = phoneObj.value;
+                let obj = {
                     name , email, phone
                 }
-                localStorage.setItem('user', JSON.stringify(obj));
+                localStorage.setItem(obj.email, JSON.stringify(obj));
                 let ul = document.createElement('ul');  
                 let li = document.createElement('li');
                 let deleteBtn = document.createElement('input');
@@ -38,12 +41,24 @@
                 deleteBtn.value = 'Delete';
                 deleteBtn.appendChild(document.createTextNode('Delete'));
                 deleteBtn.onclick = () =>{
-                    localStorage.removeItem('user');
+                    localStorage.getItem(obj.email);
                     ul.removeChild(deleteBtn.parentElement);
                 }
-                let text = document.createTextNode(obj.name+' - '+obj.email+' - '+obj.phone);
+                let editBtn = document.createElement('input');
+                editBtn.type = 'button';
+                editBtn.value = 'Edit';
+                editBtn.onclick = () =>{
+                    console.log(localStorage.getItem(obj.email));
+                    localStorage.removeItem(obj.email);
+                    ul.removeChild(editBtn.parentElement);
+                    nameObj.value = obj.name;
+                    emailObj.value = obj.email;
+                    phoneObj.value = obj.phone;
+                }
+                let text = document.createTextNode(obj.name+' - '+obj.email+' - '+obj.phone+' ');
                 li.appendChild(text);
                 li.appendChild(deleteBtn);
+                li.appendChild(editBtn);
                 ul.appendChild(li);
                 form.appendChild(ul);
                 }

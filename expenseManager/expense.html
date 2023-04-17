@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <title>Expense Manager</title>
+</head>
+<body>
+    <div class="container">
+        <form id="addForm">
+            <label for="amount">Choose expense amount :</label>
+            <input type="text" name="amount" id="amount"><br>
+            <label for="description">Choose description :</label>
+            <input type="text" name="description" id="description"><br>
+            <label for="category">Choose a category :</label>
+            <select name="category" id="category">
+                <option value="Groceries">Groceries</option>
+                <option value="Stationary">Stationary</option>
+                <option value="Movie">Movie</option>
+                <option value="Rent">Room rent</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Miscellanious">Miscellanious</option>
+            </select><br>
+            <input type="submit" name="category" id="category" value="Add Expense">
+        </form>
+    </div>
+    <div class="display">
+        <ul id="list-group">
+            
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

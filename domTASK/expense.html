@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+            <div class="input">
+                <form>
+                    <label for="amount">Expense Amount : </label>
+                    <input type="text" name="amount" id="amount">
+                    <label for="description">Description : </label>
+                    <input type="text" name="description" id="description">
+                    <select name="category" id="category">
+                        <option value="Food">Food</option>
+                        <option value="Water">Water</option>
+                        <option value="Bill">Bill</option>
+                    </select>
+                    <input type="submit" name="submit" id="submit" value="Add Expense">
+                </form>
+            </div>
+            <div class="view">
+                <ul>
+
+                </ul>
+            </div>
+    </div>
+    <script>
+        var form = document.querySelector('form')
+        var ul = document.querySelector('ul')
+        form.addEventListener('submit', viewer)
+        function viewer(e){
+            e.preventDefault();
+            var amountObj = document.querySelector('#amount')
+            var amount = amountObj.value
+            var descriptionObj = document.querySelector('#description')
+            var description = descriptionObj.value
+            var categoryObj = document.querySelector('#category')
+            var category = categoryObj.value
+            var obj = {
+                amount , description, category
+            };
+            localStorage.setItem(description, JSON.stringify(obj))
+            var li = document.createElement('li')
+            var text = document.createTextNode(obj.amount+"-"+obj.description+"-"+obj.category)
+            li.appendChild(text)
+            var deleteBtn = document.createElement('input')
+            deleteBtn.type = 'button'
+            deleteBtn.id = 'delete'
+            deleteBtn.value = 'Delete Expense'
+            deleteBtn.onclick = () => {
+                localStorage.removeItem(description)
+                ul.removeChild(deleteBtn.parentElement)
+            }
+            var editBtn = document.createElement('input')
+            editBtn.id = 'edit'
+            editBtn.value = 'Edit Expense'
+            editBtn.type = 'button'
+            editBtn.onclick = () => {
+                localStorage.getItem('description')
+                amountObj.value = obj.amount
+                descriptionObj.value = obj.description
+                categoryObj.value = obj.category;
+                ul.removeChild(editBtn.parentElement)
+            }
+            li.append(deleteBtn)
+            li.appendChild(editBtn)
+            ul.appendChild(li)
+            
+        }
+    </script>
+</body>
+</html>

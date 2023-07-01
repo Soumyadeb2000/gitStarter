@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <form>
+        <form onsubmit="saveToCrudCrud(event)">
             <label for="name">Name : </label>
             <input type="text" name="name" id="name"><br><br>
             <label for="email">Email : </label>
@@ -17,59 +17,75 @@
             <input type="text" name="phone" id="phone"><br><br>
             <input type="submit" id="submit" class="submit">
         </form>
+        <ul id="listOfItems"></ul>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script>
-            const form = document.querySelector('form');
-            form.addEventListener('submit', showDetails);
-            function showDetails(Event){
-                Event.preventDefault();
-                let nameObj = document.querySelector('#name');
-                let emailObj = document.querySelector('#email');
-                let phoneObj = document.querySelector('#phone');
-                let name = nameObj.value;
-                let email = emailObj.value;
-                let phone = phoneObj.value;
+            function saveToCrudCrud(event){
+                event.preventDefault();
+                const name = event.target.name.value
+                const email = event.target.email.value
+                const phone = event.target.phone.value
                 let obj = {
                     name , email, phone
                 }
-                localStorage.setItem(obj.email, JSON.stringify(obj));
-                axios.post("https://crudcrud.com/api/a488fa0cc603471bb0a6c510f74481e4/appoint", obj)
+                // localStorage.setItem(obj.email, JSON.stringify(obj));
+                showUserOnScreen(obj)
+                axios.post("https://crudcrud.com/api/78e1cc7c34304217873bf584a0587de8/appoint", obj)
                 .then((responses)=>{
                     console.log(responses)
+                        nameObj.value = responses.data[0];
+                        phoneObj.value = responses.data[1];
+                        emailObj.value = responses.data[2]
                 })
                 .catch((err)=>{
                     console.log(err)
                 })
-                let ul = document.createElement('ul');  
-                let li = document.createElement('li');
-                let deleteBtn = document.createElement('input');
-                deleteBtn.className = 'delete';
-                deleteBtn.type = 'button';
-                deleteBtn.value = 'Delete';
-                deleteBtn.appendChild(document.createTextNode('Delete'));
-                deleteBtn.onclick = () =>{
-                    localStorage.getItem(obj.email);
-                    ul.removeChild(deleteBtn.parentElement);
-                }
-                let editBtn = document.createElement('input');
-                editBtn.type = 'button';
-                editBtn.value = 'Edit';
-                editBtn.onclick = () =>{
-                    console.log(localStorage.getItem(obj.email));
-                    localStorage.removeItem(obj.email);
-                    ul.removeChild(editBtn.parentElement);
-                    nameObj.value = obj.name;
-                    emailObj.value = obj.email;
-                    phoneObj.value = obj.phone;
-                }
-                let text = document.createTextNode(obj.name+' - '+obj.email+' - '+obj.phone+' ');
-                li.appendChild(text);
-                li.appendChild(deleteBtn);
-                li.appendChild(editBtn);
-                ul.appendChild(li);
-                form.appendChild(ul);
-                }
+            }
+
+                function showUserOnScreen(obj){
+                    const parentElm = document.getElementById('listOfItems')
+                    const childElm = document.createElement('li')
+                    childElm.textContent = obj.name + '-' + obj.email + '-' + obj.phone
+                    parentElm.appendChild(childElm)
+                    let deleteBtn = document.createElement('input');
+                    deleteBtn.className = 'delete';
+                    deleteBtn.type = 'button';
+                    deleteBtn.value = 'Delete';
+                    deleteBtn.onclick = () =>{
+                        localStorage.getItem(obj.email);
+                        parentElm.removeChild(childElm);
+                    }
+                    childElm.appendChild(deleteBtn)
+                    parentElm.appendChild(childElm)
+                    const editBtn = document.createElement('input');
+                    editBtn.type = 'button';
+                    editBtn.value = 'Edit';
+                    editBtn.onclick = () =>{
+                        console.log(localStorage.getItem(obj.email));
+                        localStorage.removeItem(obj.email);
+                        parentElm.removeChild(childElm);
+                    }
+                    childElm.appendChild(editBtn)
+                    parentElm.appendChild(childElm)
+                }    
+                
+                window.addEventListener('DOMContentLoaded', () => {
+                    axios.get("https://crudcrud.com/api/78e1cc7c34304217873bf584a0587de8/appoint")
+                    .then((responses)=>{
+                        console.log(responses)
+                        for( let i=0 ; i<responses.data.length ; i++){
+                            showUserOnScreen(responses.data[i])
+                        }   
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })  
+                })
+                
+            
+                
+                
     </script>
 </body>
 </html>

@@ -18,6 +18,7 @@
             <input type="submit" id="submit" class="submit">
         </form>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script>
             const form = document.querySelector('form');
             form.addEventListener('submit', showDetails);
@@ -33,6 +34,13 @@
                     name , email, phone
                 }
                 localStorage.setItem(obj.email, JSON.stringify(obj));
+                axios.post("https://crudcrud.com/api/a488fa0cc603471bb0a6c510f74481e4", obj)
+                .then((response)=>{
+                    console.log(response)
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
                 let ul = document.createElement('ul');  
                 let li = document.createElement('li');
                 let deleteBtn = document.createElement('input');

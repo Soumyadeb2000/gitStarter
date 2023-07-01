@@ -34,7 +34,7 @@
                     name , email, phone
                 }
                 localStorage.setItem(obj.email, JSON.stringify(obj));
-                axios.post("https://crudcrud.com/api/a488fa0cc603471bb0a6c510f74481e4", obj)
+                axios.post("https://crudcrud.com/api/a488fa0cc603471bb0a6c510f74481e4/appoint", obj)
                 .then((response)=>{
                     console.log(response)
                 })

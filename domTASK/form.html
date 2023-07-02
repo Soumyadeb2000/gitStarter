@@ -31,7 +31,7 @@
                 }
                 // localStorage.setItem(obj.email, JSON.stringify(obj));
                 showUserOnScreen(obj)
-                axios.post("https://crudcrud.com/api/78e1cc7c34304217873bf584a0587de8/appoint", obj)
+                axios.post("https://crudcrud.com/api/a7e83e983dff41e4958aacafcdf7fa30/appoint", obj)
                 .then((responses)=>{
                     console.log(responses)
                         nameObj.value = responses.data[0];
@@ -42,7 +42,6 @@
                     console.log(err)
                 })
             }
-
                 function showUserOnScreen(obj){
                     const parentElm = document.getElementById('listOfItems')
                     const childElm = document.createElement('li')
@@ -53,8 +52,11 @@
                     deleteBtn.type = 'button';
                     deleteBtn.value = 'Delete';
                     deleteBtn.onclick = () =>{
-                        localStorage.getItem(obj.email);
-                        parentElm.removeChild(childElm);
+                        axios.delete(`https://crudcrud.com/api/a7e83e983dff41e4958aacafcdf7fa30/appoint/${obj._id}`)
+                        .then(parentElm.removeChild(childElm))
+                        .catch((err) => {
+                            console.log(err)
+                        })
                     }
                     childElm.appendChild(deleteBtn)
                     parentElm.appendChild(childElm)
@@ -71,7 +73,7 @@
                 }    
                 
                 window.addEventListener('DOMContentLoaded', () => {
-                    axios.get("https://crudcrud.com/api/78e1cc7c34304217873bf584a0587de8/appoint")
+                    axios.get("https://crudcrud.com/api/a7e83e983dff41e4958aacafcdf7fa30/appoint")
                     .then((responses)=>{
                         console.log(responses)
                         for( let i=0 ; i<responses.data.length ; i++){
@@ -81,11 +83,7 @@
                     .catch((err)=>{
                         console.log(err)
                     })  
-                })
-                
-            
-                
-                
+                })     
     </script>
 </body>
 </html>

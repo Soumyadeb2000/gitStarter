@@ -34,9 +34,7 @@
                 axios.post("https://crudcrud.com/api/a7e83e983dff41e4958aacafcdf7fa30/appoint", obj)
                 .then((responses)=>{
                     console.log(responses)
-                        nameObj.value = responses.data[0];
-                        phoneObj.value = responses.data[1];
-                        emailObj.value = responses.data[2]
+                        
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -64,9 +62,14 @@
                     editBtn.type = 'button';
                     editBtn.value = 'Edit';
                     editBtn.onclick = () =>{
-                        console.log(localStorage.getItem(obj.email));
-                        localStorage.removeItem(obj.email);
-                        parentElm.removeChild(childElm);
+                        document.getElementById('name').value = obj.name;
+                        document.getElementById('email').value = obj.email;
+                        document.getElementById('phone').value = obj.phone;
+                        axios.delete(`https://crudcrud.com/api/a7e83e983dff41e4958aacafcdf7fa30/appoint/${obj._id}`)
+                        .then(parentElm.removeChild(childElm))
+                        .catch((err) => {
+                            console.log(err)
+                        })
                     }
                     childElm.appendChild(editBtn)
                     parentElm.appendChild(childElm)

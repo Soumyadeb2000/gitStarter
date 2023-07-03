@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="saveToCrudCrud(event)">
+        <label for="name">Candy Name:</label>
+        <input type="text" name="name" id="name">
+        <label for="description">Description:</label>
+        <input type="text" name="description" id="description">
+        <label for="price">Price:</label>
+        <input type="text" name="price" id="price">
+        <label for="quantity">Quantity:</label>
+        <input type="text" name="quantity" id="quantity">
+        <input type="submit" value="Add Item">
+    </form>
+    <ul id="itemList"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script>
+        function saveToCrudCrud(event){
+            event.preventDefault();
+            const name = event.target.name.value;
+            const description = event.target.description.value;
+            const price = event.target.price.value;
+            const quantity = event.target.quantity.value;
+            let obj = {
+                name, description, price, quantity
+            }
+            showDetailsOnScreen(obj)
+            axios.post("https://crudcrud.com/api/8a53095c31e947a097f4833e589f2f88/details", obj)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        } 
+            function showDetailsOnScreen(obj) {
+                const parentElm = document.getElementById('itemList')
+                const childElm = document.createElement('li')
+                childElm.textContent = obj.name + " " + obj.description + " " + obj.price + " " + obj.quantity
+                parentElm.appendChild(childElm)
+                    let buyOne = document.createElement('input');
+                    buyOne.className = 'buyOne';
+                    buyOne.type = 'button';
+                    buyOne.value = 'buy1';
+                    let buyTwo = document.createElement('input');
+                    buyTwo.className = 'buyTwo';
+                    buyTwo.type = 'button';
+                    buyTwo.value = 'buy2';
+                    let buyThree = document.createElement('input');
+                    buyThree.className = 'buyThree';
+                    buyThree.type = 'button';
+                    buyThree.value = 'buy3';
+                childElm.appendChild(buyOne)
+                childElm.appendChild(buyTwo)
+                childElm.appendChild(buyThree)
+
+                buyOne.onclick = () => {
+                    axios.put(`https://crudcrud.com/api/8a53095c31e947a097f4833e589f2f88/details/${obj._id}`, {
+                        price : (obj.quantity-1)
+                    })
+                    .then((response) => {
+                        alert('Quantity Updated')
+                        parentElm.appendChild(childElm)
+                    })
+                    .catch((err) => {
+                        alert('Insufficient quantity')
+                    })
+                }
+
+                buyTwo.onclick = () => {
+                    axios.put(`https://crudcrud.com/api/8a53095c31e947a097f4833e589f2f88/details/${obj._id}`, {
+                        price : (obj.quantity-2)
+                    })
+                    .then((response) => {
+                        alert('Quantity Updated')
+                        parentElm.appendChild(childElm)
+                    })
+                    .catch((err) => {
+                        alert('Insufficient quantity')
+                    })
+                }
+
+                buyThree.onclick = () => {
+                    axios.put(`https://crudcrud.com/api/8a53095c31e947a097f4833e589f2f88/details/${obj._id}`, {
+                        price : (obj.quantity-3)
+                    })
+                    .then((response) => {
+                        alert('Quantity Updated')
+                        parentElm.appendChild(childElm)
+                    })
+                    .catch((err) => {
+                        alert('Insufficient quantity')
+                    })
+                }
+            }
+
+            window.addEventListener('DOMContentLoaded', () => {
+                    axios.get("https://crudcrud.com/api/8a53095c31e947a097f4833e589f2f88/details")
+                    .then((responses)=>{
+                        console.log(responses)
+                        for(let i=0 ; i<responses.data.length ; i++){
+                            showDetailsOnScreen(responses.data[i])
+                        }   
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })  
+                })  
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="saveToServer(event)">
+        <label for="sellingPrice">Selling Price: </label>
+        <input type="text" name="sp" id="sp">
+        <label for="productName">Product Name: </label>
+        <input type="text" name="pname" id="pname">
+        <label for="category">Choose a category: </label>
+        <select name="category" id="category">
+            <option value="electronics">Electronics</option>
+            <option value="skincare">Skincare</option>
+            <option value="food">Food</option>
+        </select>
+        <input type="submit" name="submit" id="submit" value="Add Product">
+    </form>
+    <ul id="productList"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script>
+        function saveToServer(event){
+            event.preventDefault();
+            const sellingPrice = event.target.sp.value;
+            const productName = event.target.pname.value;
+            const category = event.target.category.value;
+            let obj = {
+                sellingPrice, productName, category
+            }
+            showDetailsOnScreen(obj)
+            axios.post("https://crudcrud.com/api/1a6059a685f34a15938ec036d3f4260e/appoint", obj)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+
+        function showDetailsOnScreen(obj) {
+                const parentElm = document.getElementById('productList')
+                const childElm = document.createElement('li')
+                childElm.textContent = obj.sellingPrice + "-" + obj.productName + "-" + obj.category
+                parentElm.appendChild(childElm)
+                let deleteBtn = document.createElement('input');
+                    deleteBtn.type = 'button'
+                    deleteBtn.value = 'Delete Order';
+                    childElm.appendChild(deleteBtn)
+                    deleteBtn.onclick = () =>{
+                        axios.delete(`https://crudcrud.com/api/1a6059a685f34a15938ec036d3f4260e/appoint/${obj._id}`)
+                        .then(parentElm.removeChild(childElm))
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                    }
+        }    
+        
+        window.addEventListener('DOMContentLoaded', () => {
+                    axios.get("https://crudcrud.com/api/1a6059a685f34a15938ec036d3f4260e/appoint")
+                    .then((responses)=>{
+                        console.log(responses)
+                        for( let i=0 ; i<responses.data.length ; i++){
+                            showDetailsOnScreen(responses.data[i])
+                        }   
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })  
+        })
+    </script>
+</body>
+</html>
